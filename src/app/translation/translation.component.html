@@ -1,0 +1,54 @@
+<div class="container">
+    <h2 class="title">🌍 Translation Converter Tool</h2>
+
+    <mat-tab-group>
+        <mat-tab label="Upload">
+            <div class="upload-tab">
+                <div class="upload-section">
+                    <label>📥 Upload JSON Files</label>
+                    <div class="custom-file-input">
+                        <input type="file" id="jsonInput" (change)="onJsonUpload($event)" multiple
+                            accept="application/json" />
+                        <label for="jsonInput">Choose JSON files</label>
+                    </div>
+
+                    <button *ngIf="excelData.length" class="primary-button small" (click)="downloadExcel()" [disabled]="!excelData.length">
+                        ⬇️ Download Excel
+                    </button>
+                    <button *ngIf="excelData.length" class="secondary-button small" (click)="clearJsonFiles()">🗑️ Clear JSON Files</button>
+                </div>
+
+                <div class="upload-section">
+                    <label>📤 Upload Excel File</label>
+                    <div class="custom-file-input">
+                        <input type="file" id="excelInput" (change)="onExcelUpload($event)" accept=".xlsx" />
+                        <label for="excelInput">Choose Excel file</label>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+
+
+        <mat-tab label="Preview" *ngIf="excelData.length">
+            <div class="preview-section">
+                <h4 class="preview-title">🔍 Preview</h4>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th *ngFor="let lang of (excelData[0] | keyvalue)">{{ lang.key }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of excelData">
+                                <td>{{ row.key }}</td>
+                                <td *ngFor="let lang of (excelData[0] | keyvalue)">{{ row[lang.key] }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
